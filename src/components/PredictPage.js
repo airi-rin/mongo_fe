@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Button, Form, Image } from 'react-bootstrap';
-import '../styles/predict.css';
+import React, { useState } from "react";
+import { Button, Form, Image } from "react-bootstrap";
+import "../styles/predict.css";
+import { labelService } from "../services/LabelService";
 
 const Predict = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [prediction, setPrediction] = useState('');
+  const [prediction, setPrediction] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -13,31 +14,24 @@ const Predict = () => {
     setPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = async (event, url) => {
+  const handleSubmit = async (event, isResnet) => {
     event.preventDefault();
 
     if (!selectedFile) {
-      alert('Please select a file first!');
+      alert("Please select a file first!");
       return;
     }
 
-    const formData = new FormData();
-    formData.append('image', selectedFile);
-
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      var result;
+      if (isResnet) {
+        result = await labelService.predictResnet(selectedFile);
+      } else {
+        result = await labelService.predictNoResnet(selectedFile);
       }
-
-      const result = await response.text();
       setPrediction(result);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -59,7 +53,7 @@ const Predict = () => {
           <Button
             variant="primary"
             type="submit"
-            onClick={(event) => handleSubmit(event, 'http://localhost:5000/api/labels/predict/no-resnet')}
+            onClick={(event) => handleSubmit(event, false)}
             className="btn-primary"
           >
             Model no resnet
@@ -67,7 +61,7 @@ const Predict = () => {
           <Button
             variant="secondary"
             type="submit"
-            onClick={(event) => handleSubmit(event, 'http://localhost:5000/api/labels/predict/resnet')}
+            onClick={(event) => handleSubmit(event, true)}
             className="btn-primary"
           >
             Model resnet

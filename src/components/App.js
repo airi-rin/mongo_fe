@@ -1,8 +1,8 @@
-import '../styles/App.css';
-import React from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import LabelList from './LabelListPage.js';
-import Predict from './PredictPage';
+import "../styles/App.css";
+import React from "react";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import LabelList from "./LabelListPage.js";
+import Predict from "./PredictPage";
 
 function App() {
   return (
@@ -20,8 +20,8 @@ function App() {
         </nav>
 
         <Routes>
-            <Route path="/" element={<LabelList />} />
-            <Route path="/predict" element={<Predict />} />
+          <Route path="/" element={<LabelList />} />
+          <Route path="/predict" element={<Predict />} />
         </Routes>
       </div>
     </Router>

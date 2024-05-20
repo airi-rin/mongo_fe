@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/labelList.css';
+import React, { useState, useEffect } from "react";
+import "../styles/labelList.css";
+import { labelService } from "../services/LabelService";
 
 function LabelList() {
   const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/labels/list');
-      if (!response.ok) {
-        throw new Error('Failed to fetch labels');
-      }
-      const data = await response.json();
+      const data = await labelService.labelList();
       setLabels(data);
     } catch (error) {
-      console.error('Error fetching labels:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -28,7 +25,6 @@ function LabelList() {
       <table className="label-table">
         <thead>
           <tr>
-            {/* <th>Label ID</th> */}
             <th>Disease Name</th>
             <th>Description</th>
           </tr>
@@ -36,7 +32,6 @@ function LabelList() {
         <tbody>
           {labels.map((label) => (
             <tr key={label.labelId}>
-              {/* <td>{label.labelId}</td> */}
               <td>{label.labelName}</td>
               <td>{label.description}</td>
             </tr>
