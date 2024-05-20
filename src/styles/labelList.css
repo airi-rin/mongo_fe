@@ -1,0 +1,20 @@
+.label-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .label-table th, .label-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .label-table th {
+    background-color: #f8f9fa;
+    color: #343a40;
+  }
+  
+  .label-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
